@@ -40,6 +40,7 @@ pexpect==4.8.0
 pickleshare==0.7.5
 Pillow==10.0.1
 platformdirs==3.10.0
+plotly==5.17.0
 polars==0.19.5
 prompt-toolkit==3.0.39
 psutil==5.9.5
@@ -59,6 +60,7 @@ sqlglot==18.8.0
 stack-data==0.6.2
 statsforecast==1.6.0
 statsmodels==0.14.0
+tenacity==8.2.3
 tornado==6.3.3
 tqdm==4.66.1
 traitlets==5.10.1

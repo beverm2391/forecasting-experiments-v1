@@ -1,8 +1,10 @@
 # Time Series Model Experiments
 
-## TODO
+## Completed
 - [ ] copy polygon data into here, or keep it centralized somewhere
-- [ ] Train an ARCH and GARH model on polygon data
+
+## TODO
+- [ ] Replicate tutorial with hourly data for ARCH and GARCH
 - [ ] Build out a REST API to serve predictions (model_name, model_id, etc.)
 
 ## Resources

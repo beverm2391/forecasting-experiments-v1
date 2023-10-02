@@ -4,8 +4,8 @@ from pandas.tseries.holiday import USFederalHolidayCalendar
 from pandas.tseries.offsets import CustomBusinessHour
 from functools import lru_cache
 
-def log_returns(series):
-    return np.log(series).diff()
+def returns(y: pd.Series): return y.pct_change()
+def log_returns(y: pd.Series): return np.log(y).diff()
 
 def get_polygon_root() -> str:
     """Returns the root directory of the polygon data."""

@@ -2,9 +2,9 @@
 
 ## Completed
 - [X] copy polygon data into here, or keep it centralized somewhere
+- [X] Fix preprocess multi-index
 
 ## TODO
-- [ ] Fix preprocess multi-index
 - [ ] Create a script for training and evaluating statsforecasting models
 - [ ] Creat a script for generating forecasts from statsforecasting models
 

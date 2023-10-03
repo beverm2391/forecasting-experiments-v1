@@ -1,9 +1,10 @@
 import pandas as pd
 from typing import Callable
+import warnings
 
 def preprocess_yf(df: pd.DataFrame, y_func: Callable[[pd.Series], pd.Series]):
     """
-    Takes a yfinance price dataframe and returns a dataframe with columns:
+    Takes a yfinance price dataframe and returns a dataframe with columns: ds, unique_id (optional), y
     """
     def _is_multi_index(df): return type(df.columns) == pd.core.indexes.multi.MultiIndex
 
@@ -16,6 +17,8 @@ def preprocess_yf(df: pd.DataFrame, y_func: Callable[[pd.Series], pd.Series]):
         return df
     
     def _process_multi_index(df):
+        warnings.filterwarnings('ignore', category=pd.errors.SettingWithCopyWarning)  #? ignore SettingWithCopyWarning
+
         tickers = df.columns.get_level_values(1).unique().tolist()
         df = df.loc[:, (['Adj Close'], tickers)] # just get adj close
         df.columns = df.columns.droplevel() # drop MultiIndex
@@ -32,5 +35,3 @@ def preprocess_yf(df: pd.DataFrame, y_func: Callable[[pd.Series], pd.Series]):
         return _process_multi_index(df)
     else:
         return _process_single_index(df)
-
-#! refactored for better readability, abstraction =================================

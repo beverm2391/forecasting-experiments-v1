@@ -26,3 +26,40 @@ def preprocess_yf(df: pd.DataFrame, y_func: Callable[[pd.Series], pd.Series]):
         df.loc[:, 'y'] = df.loc[:, 'Adj Close'].agg(y_func) # add log returns column
         df = df.loc[:, ['ds', 'y']] # keep only ds and y columns
         return df
+
+#! refactored for better readability, abstraction =================================
+
+def _handle_multi_index(df: pd.DataFrame, y_func: Callable[[pd.Series], pd.Series]):
+    """
+    Takes a yfinance price dataframe and returns a dataframe with columns: ds, unique_id, y
+    y is from y_func
+    """
+    tickers = df.columns.get_level_values(1).unique().tolist()
+    df = df.loc[:, (['Adj Close'], tickers)]
+    df.columns = df.columns.droplevel()
+    prices = df.melt(id_vars='ds')
+    prices['y'] = prices.groupby('variable')['value'].transform(y_func)
+    prices.rename(columns={'variable': 'unique_id'}, inplace=True)
+    prices.drop(columns='value', inplace=True)
+    return prices
+
+def _handle_single_index(df: pd.DataFrame, y_func: Callable[[pd.Series], pd.Series]):
+    """
+    Takes a yfinance price dataframe and returns a dataframe with columns: ds, y
+    y is from y_func
+    """
+    df['y'] = df['Adj Close'].agg(y_func)
+    return df.loc[:, ['ds', 'y']]
+
+def preprocess_yf_v2(df: pd.DataFrame, y_func: Callable[[pd.Series], pd.Series]):
+    """
+    Takes a yfinance price dataframe and returns a dataframe with columns: ds, unique_id, y (if multi-index) or ds, y (if single-index)
+    y is from y_func
+    """
+    df.reset_index(inplace=True)
+    df.rename(columns={df.columns[0]: 'ds'}, inplace=True)
+    
+    if isinstance(df.columns, pd.MultiIndex):
+        return _handle_multi_index(df, y_func)
+    else:
+        return _handle_single_index(df, y_func)

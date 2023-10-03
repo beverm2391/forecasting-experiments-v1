@@ -1,12 +1,13 @@
 # Time Series Model Experiments
 
 ## Completed
-- [ ] copy polygon data into here, or keep it centralized somewhere
+- [X] copy polygon data into here, or keep it centralized somewhere
 
 ## TODO
-- [ ] Replicate tutorial with hourly data for ARCH and GARCH
-- [ ] Build out a REST API to serve predictions (model_name, model_id, etc.)
-
+- [ ] Fix preprocess multi-index
+- [ ] Create a script for training and evaluating statsforecasting models
+- [ ] Creat a script for generating forecasts from statsforecasting models
+  
 ## Resources
 
 ### Tips and Tricks

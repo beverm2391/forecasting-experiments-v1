@@ -26,7 +26,11 @@ def get_sp500():
     df = table[0]
     return df
 
+# ! Decorators ========================================================================================================
 def time_it(message=None): # decorator factory
+    """
+    Decorator factory that returns a decorator that prints the time it takes to run a function.
+    """
     def decorator(func): # decorator
         @wraps(func) # preserves the name and docstring of the decorated function
         def wrapper(*args, **kwargs): # wrapper
@@ -37,3 +41,15 @@ def time_it(message=None): # decorator factory
             return result
         return wrapper
     return decorator
+
+def try_it(func):
+    """
+    Decorator that wraps a function in a try-except block.
+    """
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            print(f"Exception: {e}")
+    return wrapper

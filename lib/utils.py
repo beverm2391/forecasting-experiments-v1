@@ -3,6 +3,8 @@ import pandas as pd
 from pandas.tseries.holiday import USFederalHolidayCalendar
 from pandas.tseries.offsets import CustomBusinessHour
 from functools import lru_cache
+from time import perf_counter
+from functools import wraps
 
 def returns(y: pd.Series): return y.pct_change()
 def log_returns(y: pd.Series): return np.log(y).diff()
@@ -23,3 +25,15 @@ def get_sp500():
     table = pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')
     df = table[0]
     return df
+
+def time_it(message=None): # decorator factory
+    def decorator(func): # decorator
+        @wraps(func) # preserves the name and docstring of the decorated function
+        def wrapper(*args, **kwargs): # wrapper
+            start = perf_counter() 
+            result = func(*args, **kwargs)
+            end = perf_counter()
+            print(f"{message if message else f'Function {func.__name__}'} took {end - start:.02f}s")
+            return result
+        return wrapper
+    return decorator

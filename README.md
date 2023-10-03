@@ -7,7 +7,7 @@
 - [ ] Fix preprocess multi-index
 - [ ] Create a script for training and evaluating statsforecasting models
 - [ ] Creat a script for generating forecasts from statsforecasting models
-  
+
 ## Resources
 
 ### Tips and Tricks

@@ -17,7 +17,7 @@ def fetch_data(tickers: Union[str, List[str]], start: str, end: str, interval: s
     df = yf.download(tickers, start=start, end=end, interval=interval)
     return df
 
-def main():
+def main(*args, **kwargs):
     # ! YOUR PARAMETERS HERE ================================================================
     
     # data
@@ -72,7 +72,7 @@ def main():
 
     # Save forecasts
     print(f"Saving forecasts to {path}...")
-    forecasts.to_csv(f"{path}_forecast_{random.randint(0, 9999)}.csv")
+    forecasts.to_csv(f"{path}/forecast_{random.randint(0, 9999)}.csv")
 
     print("Complete")
 

@@ -3,10 +3,11 @@
 ## Completed
 - [X] copy polygon data into here, or keep it centralized somewhere
 - [X] Fix preprocess multi-index
-
+- [X] Create a script for generating forecasts from statsforecasting models
+  
 ## TODO
-- [ ] Create a script for training and evaluating statsforecasting models
-- [ ] Creat a script for generating forecasts from statsforecasting models
+- [ ] Figure out the best ARCH and GARCH models for a group of stocks
+  - [ ] Create a script for training and evaluating statsforecasting models
 
 ## Resources
 

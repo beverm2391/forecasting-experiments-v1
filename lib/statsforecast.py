@@ -1,8 +1,9 @@
 import pandas as pd
-from typing import Callable
+from typing import Callable, Optional, List, Dict
 import warnings
 
-def preprocess_yf(df: pd.DataFrame, y_func: Callable[[pd.Series], pd.Series]):
+def preprocess_yf(df: pd.DataFrame, y_func: Callable[[pd.Series], pd.Series], \
+                  yfunc_args: Optional[List] = [], yfunc_kwargs: Optional[Dict] = {}) -> pd.DataFrame:
     """
     Takes a yfinance price dataframe and returns a dataframe with columns: ds, unique_id (optional), y
     """
@@ -12,7 +13,7 @@ def preprocess_yf(df: pd.DataFrame, y_func: Callable[[pd.Series], pd.Series]):
         df.reset_index(inplace=True)
         ds_colname = df.columns[0]
         df.rename(columns={ds_colname: 'ds'}, inplace=True) # rename ds column
-        df.loc[:, 'y'] = df.loc[:, 'Adj Close'].agg(y_func) # add log returns column
+        df.loc[:, 'y'] = df.loc[:, 'Adj Close'].agg(y_func, *yfunc_args, **yfunc_kwargs) # add log returns column
         df = df.loc[:, ['ds', 'y']] # keep only ds and y columns
         return df
     
@@ -26,7 +27,7 @@ def preprocess_yf(df: pd.DataFrame, y_func: Callable[[pd.Series], pd.Series]):
         ds_colname = df.columns[0] # get ds column name
         df.rename(columns={ds_colname: 'ds'}, inplace=True) # rename ds column
         prices = df.melt(id_vars='ds') # melt by ds index
-        prices['y_func'] = prices.groupby('variable')['value'].transform(y_func) # apply y_func to value (Adj Close)
+        prices['y_func'] = prices.groupby('variable')['value'].transform(y_func, *yfunc_args, **yfunc_kwargs) # apply y_func to value (Adj Close)
         prices.rename(columns={'variable': 'unique_id', 'y_func' : 'y'}, inplace=True)
         prices.drop(columns='value', inplace=True) # rename columns
         return prices

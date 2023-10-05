@@ -10,6 +10,7 @@ import yfinance as yf
 # ! Functions =========================================================================================================
 def returns(y: pd.Series): return y.pct_change()
 def log_returns(y: pd.Series): return np.log(y).diff()
+def squared_returns(y: pd.Series): return y.pct_change()**2
 
 def hv(series: pd.Series, annualization_factor: int = 252) -> pd.Series:
     """Historical Volatility"""
